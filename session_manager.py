@@ -1,16 +1,22 @@
 import json
 import os
 
-SESSION_FILE = "sessions.json"
+FISIER_SETARI = "config.json"
 
-def save_session(host, user):
-    sessions = load_sessions()
-    sessions[host] = {"user": user}
-    with open(SESSION_FILE, "w") as f:
-        json.dump(sessions, f, indent=4)
+def salveaza_date(host, user):
+    date_existente = incarca_date()
+    date_existente[host] = {"utilizator": user}
+    f = open(FISIER_SETARI, "w")
+    json.dump(date_existente, f, indent=4)
+    f.close()
 
-def load_sessions():
-    if not os.path.exists(SESSION_FILE):
+def incarca_date():
+    if not os.path.exists(FISIER_SETARI):
         return {}
-    with open(SESSION_FILE, "r") as f:
-        return json.load(f)
+    try:
+        f = open(FISIER_SETARI, "r")
+        date = json.load(f)
+        f.close()
+        return date
+    except:
+        return {}
